@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LegalConnect - Your Legal Solution Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #4a5568;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #4a5568;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .user-toggle {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .toggle-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid #667eea;
+            background: transparent;
+            color: #667eea;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .toggle-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 80px;
+            padding: 2rem 0;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        /* Search Section */
+        .search-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .search-container {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 50px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: #667eea;
+        }
+
+        .search-btn {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.3s;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .search-results {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 10px;
+            display: none;
+        }
+
+        /* Decision Tree */
+        .decision-tree {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .decision-step {
+            display: none;
+            text-align: center;
+        }
+
+        .decision-step.active {
+            display: block;
+        }
+
+        .decision-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .decision-btn {
+            padding: 1rem 2rem;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .decision-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Lawyer Cards */
+        .lawyers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .lawyer-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .lawyer-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .lawyer-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .lawyer-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .lawyer-info h3 {
+            color: #4a5568;
+            margin-bottom: 0.5rem;
+        }
+
+        .lawyer-specialization {
+            color: #667eea;
+            font-weight: 500;
+        }
+
+        .lawyer-stats {
+            display: flex;
+            justify-content: space-between;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 10px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-weight: bold;
+            color: #4a5568;
+            font-size: 1.2rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #718096;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .stars {
+            color: #ffd700;
+        }
+
+        .connect-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.3s;
+        }
+
+        .connect-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Features Section */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        /* Chat Interface */
+        .chat-interface {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: none;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 1rem;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+
+        .message.bot {
+            background: rgba(102, 126, 234, 0.1);
+            align-self: flex-start;
+        }
+
+        .message.user {
+            background: #667eea;
+            color: white;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 1rem;
+            gap: 0.5rem;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            outline: none;
+        }
+
+        .chat-input button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .chat-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .chat-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #999;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .search-container {
+                flex-direction: column;
+            }
+            
+            .decision-buttons {
+                flex-direction: column;
+            }
+            
+            .chat-interface {
+                width: 90%;
+                right: 5%;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">⚖️ LegalConnect</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#lawyers">Lawyers</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="user-toggle">
+                <button class="toggle-btn active" onclick="switchInterface('client')">Client</button>
+                <button class="toggle-btn" onclick="switchInterface('lawyer')">Legal Advisor</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1 id="hero-title">Your Legal Solution, Simplified</h1>
+                <p id="hero-subtitle">Connect with expert legal professionals and get the right guidance for your case</p>
+            </div>
+        </section>
+
+        <!-- Constitution Search -->
+        <section class="container">
+            <div class="search-section">
+                <h2>🔍 Indian Constitution Search</h2>
+                <p>Search for relevant articles from the Indian Constitution</p>
+                <div class="search-container">
+                    <input type="text" class="search-input" id="constitutionSearch" placeholder="Enter keywords to search Constitution articles...">
+                    <button class="search-btn" onclick="searchConstitution()">Search Articles</button>
+                </div>
+                <div class="search-results" id="searchResults"></div>
+            </div>
+        </section>
+
+        <!-- Decision Tree -->
+        <section class="container" id="clientInterface">
+            <div class="decision-tree">
+                <div class="decision-step active" id="step1">
+                    <h2>🤔 What type of legal support do you need?</h2>
+                    <p>Let us help you find the right level of legal assistance</p>
+                    <div class="decision-buttons">
+                        <button class="decision-btn" onclick="nextStep(2)">Basic Legal Consultation</button>
+                        <button class="decision-btn" onclick="nextStep(3)">Full Legal Representation</button>
+                        <button class="decision-btn" onclick="nextStep(4)">Document Review/Drafting</button>
+                    </div>
+                </div>
+
+                <div class="decision-step" id="step2">
+                    <h2>💡 Consultation Service</h2>
+                    <p>Perfect for getting quick legal advice and understanding your options</p>
+                    <div class="decision-buttons">
+                        <button class="decision-btn" onclick="showLawyers('consultation')">Find Consultants</button>
+                        <button class="decision-btn" onclick="resetDecisionTree()">Back</button>
+                    </div>
+                </div>
+
+                <div class="decision-step" id="step3">
+                    <h2>⚖️ Full Legal Representation</h2>
+                    <p>Complete legal support for complex cases requiring court representation</p>
+                    <div class="decision-buttons">
+                        <button class="decision-btn" onclick="showLawyers('advocate')">Find Advocates</button>
+                        <button class="decision-btn" onclick="resetDecisionTree()">Back</button>
+                    </div>
+                </div>
+
+                <div class="decision-step" id="step4">
+                    <h2>📄 Document Services</h2>
+                    <p>Professional document review, drafting, and legal documentation</p>
+                    <div class="decision-buttons">
+                        <button class="decision-btn" onclick="showLawyers('document')">Find Document Experts</button>
+                        <button class="decision-btn" onclick="resetDecisionTree()">Back</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lawyer Interface -->
+        <section class="container hidden" id="lawyerInterface">
+            <div class="decision-tree">
+                <h2>⚖️ Legal Professional Dashboard</h2>
+                <p>Manage your practice and connect with clients</p>
+                <div class="features">
+                    <div class="feature-card">
+                        <div class="feature-icon">👥</div>
+                        <h3>Client Management</h3>
+                        <p>Manage your client portfolio and case assignments</p>
+                        <button class="connect-btn" onclick="openModal('clientManagement')">Access Dashboard</button>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3>Analytics & Reports</h3>
+                        <p>Track your success rates and performance metrics</p>
+                        <button class="connect-btn" onclick="openModal('analytics')">View Analytics</button>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">💼</div>
+                        <h3>Case Opportunities</h3>
+                        <p>Browse and apply for new legal cases</p>
+                        <button class="connect-btn" onclick="openModal('caseOpportunities')">Browse Cases</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lawyers Grid -->
+        <section class="container">
+            <div class="lawyers-grid" id="lawyersGrid"></div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="container">
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI-Powered Matching</h3>
+                    <p>Advanced algorithms match you with the perfect legal expert based on your case specifics and lawyer expertise.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💬</div>
+                    <h3>Integrated Communication</h3>
+                    <p>Seamless video calls, document sharing, and secure messaging all in one platform.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Secure & Compliant</h3>
+                    <p>Bank-level security with escrow payments and confidential document handling.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <h3>Multi-Language Support</h3>
+                    <p>Platform available in multiple languages to serve diverse communities.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✍️</div>
+                    <h3>E-Signature Integration</h3>
+                    <p>Legally binding electronic signatures for all your documents and agreements.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>24/7 Support</h3>
+                    <p>Round-the-clock assistance with our AI chatbot and support team.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Chat Interface -->
+    <div class="chat-interface" id="chatInterface">
+        <div class="chat-header">
+            <h3>Legal Assistant</h3>
+            <span class="close" onclick="toggleChat()">&times;</span>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot">
+                Hello! I'm your AI legal assistant. How can I help you today?
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="chatInput" placeholder="Type your question...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <button class="chat-toggle" onclick="toggleChat()">💬</button>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // Application State
+        let currentInterface = 'client';
+        let currentStep = 1;
+        let lawyers = [
+            {
+                name: "Adv. Priya Sharma",
+                specialization: "Corporate Law",
+                experience: 8,
+                successRate: 94,
+                cases: 156,
+                rating: 4.8,
+                reviews: 45,
+                type: "advocate",
+                languages: ["English", "Hindi", "Tamil"]
+            },
+            {
+                name: "Adv. Rajesh Kumar",
+                specialization: "Criminal Defense",
+                experience: 12,
+                successRate: 89,
+                cases: 203,
+                rating: 4.7,
+                reviews: 67,
+                type: "advocate",
+                languages: ["English", "Hindi"]
+            },
+            {
+                name: "Ms. Anjali Patel",
+                specialization: "Family Law",
+                experience: 6,
+                successRate: 91,
+                cases: 89,
+                rating: 4.9,
+                reviews: 34,
+                type: "consultation",
+                languages: ["English", "Gujarati", "Hindi"]
+            },
+            {
+                name: "Adv. Suresh Reddy",
+                specialization: "Property Law",
+                experience: 15,
+                successRate: 96,
+                cases: 278,
+                rating: 4.8,
+                reviews: 89,
+                type: "document",
+                languages: ["English", "Telugu", "Tamil"]
+            },
+            {
+                name: "Dr. Meera Joshi",
+                specialization: "Intellectual Property",
+                experience: 10,
+                successRate: 93,
+                cases: 134,
+                rating: 4.9,
+                reviews: 56,
+                type: "consultation",
+                languages: ["English", "Marathi", "Hindi"]
+            },
+            {
+                name: "Adv. Arjun Singh",
+                specialization: "Tax Law",
+                experience: 9,
+                successRate: 88,
+                cases: 167,
+                rating: 4.6,
+                reviews: 43,
+                type: "document",
+                languages: ["English", "Punjabi", "Hindi"]
+            }
+        ];
+
+        // Constitution search data (sample - in real implementation, this would come from API)
+        const constitutionArticles = {
+            "fundamental rights": {
+                articles: ["Article 14", "Article 19", "Article 21"],
+                content: "Articles 14-35 deal with Fundamental Rights including Right to Equality, Right to Freedom, and Right to Life."
+            },
+            "directive principles": {
+                articles: ["Article 36", "Article 39", "Article 45"],
+                content: "Articles 36-51 contain Directive Principles of State Policy for social and economic democracy."
+            },
+            "president": {
+                articles: ["Article 52", "Article 53", "Article 54"],
+                content: "Articles 52-78 define the powers and functions of the President of India."
+            },
+            "parliament": {
+                articles: ["Article 79", "Article 80", "Article 81"],
+                content: "Articles 79-122 establish the structure and powers of the Indian Parliament."
+            },
+            "judiciary": {
+                articles: ["Article 124", "Article 131", "Article 136"],
+                content: "Articles 124-147 establish the Supreme Court and judicial system of India."
+            }
+        };
+
+        // Interface Switching
+        function switchInterface(type) {
+            currentInterface = type;
+            const clientBtn = document.querySelector('.toggle-btn:first-child');
+            const lawyerBtn = document.querySelector('.toggle-btn:last-child');
+            const clientInterface = document.getElementById('clientInterface');
+            const lawyerInterface = document.getElementById('lawyerInterface');
+            const heroTitle = document.getElementById('hero-title');
+            const heroSubtitle = document.getElementById('hero-subtitle');
+
+            if (type === 'client') {
+                clientBtn.classList.add('active');
+                lawyerBtn.classList.remove('active');
+                clientInterface.classList.remove('hidden');
+                lawyerInterface.classList.add('hidden');
+                heroTitle.textContent = 'Your Legal Solution, Simplified';
+                heroSubtitle.textContent = 'Connect with expert legal professionals and get the right guidance for your case';
+            } else {
+                lawyerBtn.classList.add('active');
+                clientBtn.classList.remove('active');
+                clientInterface.classList.add('hidden');
+                lawyerInterface.classList.remove('hidden');
+                heroTitle.textContent = 'Grow Your Legal Practice';
+                heroSubtitle.textContent = 'Connect with clients and manage your legal services efficiently';
+            }
+        }
+
+        // Decision Tree Navigation
+        function nextStep(step) {
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            document.getElementById(`step${step}`).classList.add('active');
+            currentStep = step;
+        }
+
+        function resetDecisionTree() {
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            document.getElementById('step1').classList.add('active');
+            currentStep = 1;
+        }
+
+        // Lawyer Display Functions
+        function showLawyers(type) {
+            const filteredLawyers = lawyers.filter(lawyer => lawyer.type === type);
+            displayLawyers(filteredLawyers);
+        }
+
+        function displayLawyers(lawyerList) {
+            const grid = document.getElementById('lawyersGrid');
+            grid.innerHTML = '';
+
+            lawyerList.forEach(lawyer => {
+                const card = createLawyerCard(lawyer);
+                grid.appendChild(card);
+            });
+
+            // Scroll to lawyers section
+            grid.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function createLawyerCard(lawyer) {
+            const card = document.createElement('div');
+            card.className = 'lawyer-card';
+            
+            const initials = lawyer.name.split(' ').map(n => n[0]).join('');
+            const stars = '★'.repeat(Math.floor(lawyer.rating)) + '☆'.repeat(5 - Math.floor(lawyer.rating));
+
+            card.innerHTML = `
+                <div class="lawyer-header">
+                    <div class="lawyer-avatar">${initials}</div>
+                    <div class="lawyer-info">
+                        <h3>${lawyer.name}</h3>
+                        <p class="lawyer-specialization">${lawyer.specialization}</p>
+                    </div>
+                </div>
+                <div class="lawyer-stats">
+                    <div class="stat">
+                        <div class="stat-value">${lawyer.experience}</div>
+                        <div class="stat-label">Years</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">${lawyer.successRate}%</div>
+                        <div class="stat-label">Success</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">${lawyer.cases}</div>
+                        <div class="stat-label">Cases</div>
+                    </div>
+                </div>
+                <div class="rating">
+                    <span class="stars">${stars}</span>
+                    <span>${lawyer.rating} (${lawyer.reviews} reviews)</span>
+                </div>
+                <p><strong>Languages:</strong> ${lawyer.languages.join(', ')}</p>
+                <button class="connect-btn" onclick="connectWithLawyer('${lawyer.name}')">Connect Now</button>
+            `;
+
+            return card;
+        }
+
+        function connectWithLawyer(lawyerName) {
+            openModal('lawyerConnection', lawyerName);
+        }
+
+        // Constitution Search
+       /*  function searchConstitution() {
+            const query = document.getElementById('constitutionSearch').value.toLowerCase();
+            const resultsDiv = document.getElementById('searchResults');
+            
+            if (!query.trim()) {
+                resultsDiv.style.display = 'none';
+                return;
+            }
+
+            let results = [];
+            for (const [key, value] of Object.entries(constitutionArticles)) {
+                if (key.includes(query) || value.content.toLowerCase().includes(query)) {
+                    results.push({
+                        keyword: key,
+                        articles: value.articles,
+                        content: value.content
+                    });
+                }
+            }
+
+            if (results.length > 0) {
+                resultsDiv.innerHTML = `
+                    <h3>Search Results for "${query}":</h3>
+                    ${results.map(result => `
+                        <div style="margin-bottom: 1rem; padding: 1rem; background: white; border-radius: 10px;">
+                            <h4>Related Articles: ${result.articles.join(', ')}</h4>
+                            <p>${result.content}</p>
+                        </div>
+                    `).join('')}
+                `;
+                resultsDiv.style.display = 'block';
+            } else {
+                resultsDiv.innerHTML = `
+                    <h3>No results found for "${query}"</h3>
+                    <p>Try */
